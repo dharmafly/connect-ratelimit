@@ -1,0 +1,23 @@
+{
+  "name": "connect-ratelimit",
+  "version": "0.0.0",
+  "description": "connect-ratelimit =================",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/AaronAcerboni/connect-ratelimit.git"
+  },
+  "keywords": [
+    "connect",
+    "middleware",
+    "ip",
+    "limit",
+    "throttle",
+    "bandwidth"
+  ],
+  "author": "",
+  "license": "BSD"
+}
