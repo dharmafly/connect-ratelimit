@@ -71,7 +71,7 @@ for each catagory type.
 The `catagories` property of the options object for the connect-limiter allows 
 you to specify different `totalRequests` and `every` for specific catagories.
 
-A fully configured looks like this:
+A fully configured value of the `catagories` property could like this:
 
 ```JavaScript
 {
@@ -90,7 +90,8 @@ A fully configured looks like this:
 }
 ```
 
-Setting `totalRequests` to `0` is a good way to block client entirely.
+Set `totalRequests` to `0` is how to block requests from under catagory 
+entirely.
 
 Below is how you can switch from an hourly rate to a half-hourly rate for all 
 catagories but blacklist.
