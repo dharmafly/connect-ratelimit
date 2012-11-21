@@ -22,8 +22,9 @@ module.exports = function (options) {
   var options = options           || {};
   whitelist   = options.whitelist || [];
   blacklist   = options.blacklist || [];
-  
-  //TODO: Customizable config
+
+  options.catagories = options.catagories || {}; 
+  deepExtend(config, options.catagories);
 
   return middleware;
 };
@@ -82,4 +83,17 @@ function getClientType (name) {
     return 'blacklist';
   }
   return 'normal';
+}
+
+function deepExtend (destination, source) {
+  for (var property in source) {
+    if (source[property] && source[property].constructor &&
+     source[property].constructor === Object) {
+      destination[property] = destination[property] || {};
+      arguments.callee(destination[property], source[property]);
+    } else {
+      destination[property] = source[property];
+    }
+  }
+  return destination;
 }

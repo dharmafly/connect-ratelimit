@@ -63,6 +63,51 @@ The middleware takes an options object with the following parameters:
 the whitelist catagory.
 - `blacklist`: An array of strings representing clients you wish to apply to 
 the blacklist catagory.
+- `catagories`: An object representing the various *total requests* per *time* 
+for each catagory type.
+
+### Configuring the different catagories
+
+The `catagories` property of the options object for the connect-limiter allows 
+you to specify different `totalRequests` and `every` for specific catagories.
+
+A fully configured looks like this:
+
+```JavaScript
+{
+  whitelist: {
+    totalRequests: 5000,
+    every:         60 * 1000 * 1000
+  },
+  blacklist: {
+    totalRequests: 0,
+    every:         0 
+  },
+  normal: {
+    totalRequests: 5,
+    every:         60 * 1000 * 1000
+  }
+}
+```
+
+Setting `totalRequests` to `0` is a good way to block client entirely.
+
+Below is how you can switch from an hourly rate to a half-hourly rate for all 
+catagories but blacklist.
+
+```JavaScript
+.use(limiter({
+  whitelist: ['dharmafly.com'],
+  catagories: {
+    normal: {
+      every: (60 * 1000 * 1000) / 2
+    },
+    whitelist: {
+      every: (60 * 1000 * 1000) / 2
+    }
+  }
+}))
+```
 
 Example
 -------
