@@ -31,5 +31,8 @@ client visits to be forgotten.
 Client identification
 ---------------------
 
-connect-ratelimit uses `req.headers['x-forwarded-for'] || req.connection.remoteAddress` 
-to identify a client.
+connect-ratelimit uses the following code to identify clients:
+
+```JavaScript
+req.headers['x-forwarded-for'] || req.connection.remoteAddress
+```
