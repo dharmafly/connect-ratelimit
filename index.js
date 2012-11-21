@@ -14,7 +14,6 @@ function middleware (req, res, next) {
   var ip = getClientAddress(req);
 
   if (whiteListed(ip)) {
-    console.log("pass!");
     next();
   } else {
     if (!clientExists(ip)) {
