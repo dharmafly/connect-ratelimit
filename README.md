@@ -27,3 +27,9 @@ The middleware takes an options object with the following parameters:
 - `limit`: The amount (default 1000) of requests which can be made per client.
 - `clear`: Amount in milliseconds (default 1 hour) for all currently recorded 
 client visits to be cleared.
+
+Client identification
+---------------------
+
+connect-ratelimit uses `req.headers['x-forwarded-for'] || req.connection.remoteAddress` 
+to identify a client.
