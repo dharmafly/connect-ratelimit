@@ -24,9 +24,9 @@ var limiter = require('connect-ratelimit');
 
 The middleware takes an options object with the following parameters:
 
-- `limit`: The amount (default 1000) of requests which can be made per client.
+- `limit`: The amount (default 1000) of requests a client can make.
 - `clear`: Amount in milliseconds (default 1 hour) for all currently recorded 
-client visits to be cleared.
+client visits to be forgotten.
 
 Client identification
 ---------------------
