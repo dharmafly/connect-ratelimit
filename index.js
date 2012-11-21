@@ -12,7 +12,7 @@ var clients   = {},
         every:         0 
       },
       normal: {
-        totalRequests: 5,
+        totalRequests: 500,
         every:         60 * 1000 * 1000
       }
     };
