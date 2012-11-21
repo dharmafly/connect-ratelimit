@@ -1,6 +1,6 @@
 {
   "name": "connect-ratelimit",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "connect middleware for ratelimiting clients",
   "main": "index.js",
   "scripts": {
