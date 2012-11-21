@@ -63,6 +63,10 @@ The middleware takes an options object with the following parameters:
 the whitelist catagory.
 - `blacklist`: An array of strings representing clients you wish to apply to 
 the blacklist catagory.
+- `end`: Boolean if false (default true) the connect chain will continue even 
+if a client has exceeded the ratelimit. connect-ratelimit augments the `res` 
+object with a `ratelimit` namespace. `res.ratelimit` exposes an object which 
+contains the client object and if the client has exceded their limit.
 - `catagories`: An object representing the various *total requests* per *time* 
 for each catagory type.
 

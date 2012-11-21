@@ -1,7 +1,7 @@
 var clients   = {},
     whitelist,
     blacklist,
-
+    end,
     config = {
       whitelist: {
         totalRequests: 5000,
@@ -22,6 +22,7 @@ module.exports = function (options) {
   var options = options           || {};
   whitelist   = options.whitelist || [];
   blacklist   = options.blacklist || [];
+  end         = (options.end == undefined) ? true : false;
 
   options.catagories = options.catagories || {}; 
   deepExtend(config, options.catagories);
@@ -41,7 +42,15 @@ function middleware (req, res, next) {
   res.setHeader('X-RateLimit-Limit', config[type].totalRequests);
   res.setHeader('X-RateLimit-Remaining', config[type].totalRequests - client.ticks);
 
-  if (ok(client)) {
+  res.ratelimit = {
+    client: client,
+    exceded: !ok(client),
+    clients: clients
+  };
+
+  console.log(end);
+
+  if (ok(client) || end == false) {
     client.ticks++;
     next();
   } else {
