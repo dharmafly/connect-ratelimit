@@ -1,9 +1,11 @@
 var clients = {},
-    limit;
+    limit,
+    whitelist;
 
 module.exports = function (options) {
-  var options = options       || {};
-  limit       = options.limit || 5;
+  var options = options        || {};
+  limit       = options.limit  || 5;
+  whitelist   = options.ignore || [];
   setInterval(clearClients, options.every || 60 * 60 * 1000);
   return middleware;
 }
@@ -11,24 +13,33 @@ module.exports = function (options) {
 function middleware (req, res, next) {
   var ip = getClientAddress(req);
 
-  if (!clientExists(ip)) {
-    trackNewClient(ip);
-  }
-
-  tickClient(ip);
-
-
-  res.setHeader('X-RateLimit-Limit', limit);
-  res.setHeader('X-RateLimit-Remaining', clients[ip]);
-
-  if (checkOk(ip)) {
-    console.log(clients);
+  if (whiteListed(ip)) {
+    console.log("pass!");
     next();
   } else {
-    clients[ip] = 0;
-    res.end('Rate limit exceeded');
+    if (!clientExists(ip)) {
+      trackNewClient(ip);
+    }
+
+    tickClient(ip);
+
+
+    res.setHeader('X-RateLimit-Limit', limit);
+    res.setHeader('X-RateLimit-Remaining', clients[ip]);
+
+    if (checkOk(ip)) {
+      console.log(clients);
+      next();
+    } else {
+      clients[ip] = 0;
+      res.end('Rate limit exceeded');
+    }
   }
 };
+
+function whiteListed (ip) {
+  return whitelist.indexOf(ip) > -1;
+}
 
 function getClientAddress(req) {
   return req.headers['x-forwarded-for'] || req.connection.remoteAddress;
