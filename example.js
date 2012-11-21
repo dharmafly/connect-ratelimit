@@ -3,9 +3,8 @@ var connect  = require('connect'),
     limiter  = require('./index'),
     app      = connect()
                 .use(limiter({
-                  limit: 5,
-                  clear: 6800000,
-                  ignore: ['127.0.0.1']
+                  whitelist: ['127.0.0.1'],
+                  blacklist: ['example.com']
                 }))
                 .use(function (req, res) {
                   res.end('Hello world!');
