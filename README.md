@@ -47,7 +47,7 @@ Example
 -------
 
 To play with the example app run the command below and navigate to 
-`localhost:4000`.
+[localhost:4000](http://localhost:4000)
 
 ```bash
 node example.js
