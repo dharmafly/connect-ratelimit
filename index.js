@@ -49,7 +49,7 @@ function middleware (req, res, next) {
 
   res.ratelimit = {
     client: client,
-    exceded: !ok(client),
+    exceeded: !ok(client),
     clients: clients
   };
 
