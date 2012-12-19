@@ -1,8 +1,8 @@
 var clients   = {},
     whitelist,
     blacklist,
-    end,
-    config = {
+    end       = false,
+    config    = {
       whitelist: {
         totalRequests: 5000,
         every:         60 * 1000 * 1000
@@ -22,7 +22,7 @@ module.exports = function (options) {
   var options = options           || {};
   whitelist   = options.whitelist || [];
   blacklist   = options.blacklist || [];
-  end         = (options.end == undefined) ? true : false;
+  end         = options.end       || end;
 
   options.catagories = options.catagories || {}; 
   deepExtend(config, options.catagories);
@@ -34,6 +34,11 @@ function middleware (req, res, next) {
   var name   = req.headers['x-forwarded-for'] || req.connection.remoteAddress,
       type   = getClientType(name),
       client = clients[name];
+
+  res.ratelimit = {
+    clients: clients,
+    exceeded: false
+  };
 
   if (req.url === '/favicon.ico') {
     next();
@@ -47,18 +52,19 @@ function middleware (req, res, next) {
   res.setHeader('X-RateLimit-Limit', config[type].totalRequests);
   res.setHeader('X-RateLimit-Remaining', config[type].totalRequests - client.ticks);
 
-  res.ratelimit = {
-    client: client,
-    exceeded: !ok(client),
-    clients: clients
-  };
+  res.ratelimit.exceeded = !ok(client);
+  res.ratelimit.client   = client;
 
-  // console.log(end);
+  console.log("end", end);
 
-  if (ok(client) || end == false) {
+  if (ok(client)) {
     client.ticks++;
     next();
-  } else {
+  } 
+  else if (end === false) {
+    next();
+  }
+  else {
     res.statusCode = 429;
     res.end('Rate limit exceded.');
   }
@@ -77,7 +83,6 @@ function Client (name, type, resetIn) {
 }
 
 function ok (client) {
-  // console.log(client);
   if (client.type === 'whitelist') {
     return client.ticks <= config.whitelist.totalRequests;
   }
