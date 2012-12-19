@@ -35,6 +35,11 @@ function middleware (req, res, next) {
       type   = getClientType(name),
       client = clients[name];
 
+  if (req.url === '/favicon.ico') {
+    next();
+    return;
+  };
+
   if (!client) {
     clients[name] = client = new Client(name, type, config[type].every);
   }
@@ -48,7 +53,7 @@ function middleware (req, res, next) {
     clients: clients
   };
 
-  console.log(end);
+  // console.log(end);
 
   if (ok(client) || end == false) {
     client.ticks++;
@@ -72,7 +77,7 @@ function Client (name, type, resetIn) {
 }
 
 function ok (client) {
-  console.log(client);
+  // console.log(client);
   if (client.type === 'whitelist') {
     return client.ticks <= config.whitelist.totalRequests;
   }
