@@ -2,6 +2,8 @@ connect-ratelimit
 =================
 
 ```JavaScript
+var limiter = require('connect-ratelimit');
+
 app = connect()
       .use(limiter({
         whitelist: ['127.0.0.1'],
@@ -122,15 +124,15 @@ You don't need to set every catagory, just the properties you want to change.
 Example
 -------
 
+connect is required for the example to run.
+
+```bash
+npm install connect
+```
+
 To play with the example app run the command below and navigate to 
 [localhost:4000](http://localhost:4000)
 
 ```bash
 node example.js
-```
-
-connect is required for the example to run.
-
-```bash
-npm install connect
 ```
