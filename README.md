@@ -16,16 +16,17 @@ connect-ratelimit is connect middleware for limiting the number of requests per
 client ip/hostname to your node server.
 
 When a limit is reached the middleware will cancel the middleware chain early 
-with `res.end('Rate limit exceeded.')`.
+with `res.end('Rate limit exceeded.')` or you can optionally check for a limit 
+exceeding yourself elsewhere down the chain.
 
 About
 -----
 
-
 ### Catagories
 
-By default all clients are catagorized as 'normal'. Whitelists and blacklist 
-catagories exist solely as templates to help you manage requesting clients. 
+Catagories serve as templates to manage different types of connecting clients.
+By default all clients are catagorized as 'normal' but `whitelist` and `blacklist` 
+catagories also exist. 
 
 #### normal
 
@@ -60,15 +61,17 @@ var limiter = require('connect-ratelimit');
 The middleware takes an options object with the following parameters:
 
 - `whitelist`: An array of strings representing clients you wish to apply to 
-the whitelist catagory.
+the whitelist catagory. eg. ['127.0.0.1'] for local development.
 - `blacklist`: An array of strings representing clients you wish to apply to 
 the blacklist catagory.
-- `end`: Boolean if false (default true) the connect chain will continue even 
-if a client has exceeded the ratelimit. connect-ratelimit augments the `res` 
-object with a `ratelimit` namespace. `res.ratelimit` exposes an object which 
-contains the client object and if the client has exceded their limit.
+- `end`: A boolean when set to false (default true) the connect chain will 
+continue even if a client has exceeded the ratelimit. The `response` object is 
+augmented with the `ratelimit` namespace. `response.ratelimit` exposes an object 
+which contains the various details about the client including if they have past 
+their limit as well as all other recorded clients. This is useful if you wish 
+to supply your own error response to the client or any other logic.
 - `catagories`: An object representing the various *total requests* per *time* 
-for each catagory type.
+for each catagory type. See below.
 
 ### Configuring the different catagories
 
@@ -113,6 +116,8 @@ catagories but blacklist.
   }
 }))
 ```
+
+You don't need to set every catagory, just the properties you want to change.
 
 Example
 -------
