@@ -61,7 +61,7 @@ var limiter = require('connect-ratelimit');
 The middleware takes an options object with the following parameters:
 
 - `whitelist`: An array of strings representing clients you wish to apply to 
-the whitelist catagory. eg. ['127.0.0.1'] for local development.
+the whitelist catagory. eg. `['127.0.0.1']` for local development.
 - `blacklist`: An array of strings representing clients you wish to apply to 
 the blacklist catagory.
 - `end`: A boolean when set to false (default true) the connect chain will 
