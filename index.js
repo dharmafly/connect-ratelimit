@@ -55,8 +55,6 @@ function middleware (req, res, next) {
   res.ratelimit.exceeded = !ok(client);
   res.ratelimit.client   = client;
 
-  console.log("end", end);
-
   if (ok(client)) {
     client.ticks++;
     next();
