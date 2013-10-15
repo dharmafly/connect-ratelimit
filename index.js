@@ -5,7 +5,7 @@ var clients   = {},
     config    = {
       whitelist: {
         totalRequests: 5000,
-        every:         60 * 1000 * 1000
+        every:         60 * 60 * 1000
       },
       blacklist: {
         totalRequests: 0,
@@ -13,7 +13,7 @@ var clients   = {},
       },
       normal: {
         totalRequests: 500,
-        every:         60 * 1000 * 1000
+        every:         60 * 60 * 1000
       }
     };
 
