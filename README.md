@@ -86,7 +86,7 @@ A fully configured value of the `catagories` property could like this:
 {
   whitelist: {
     totalRequests: 5000,
-    every:         60 * 1000 * 1000
+    every:         60 * 60 * 1000
   },
   blacklist: {
     totalRequests: 0,
@@ -94,7 +94,7 @@ A fully configured value of the `catagories` property could like this:
   },
   normal: {
     totalRequests: 5,
-    every:         60 * 1000 * 1000
+    every:         60 * 60 * 1000
   }
 }
 ```
@@ -110,10 +110,10 @@ catagories but blacklist.
   whitelist: ['dharmafly.com'],
   catagories: {
     normal: {
-      every: (60 * 1000 * 1000) / 2
+      every: (60 * 60 * 1000) / 2
     },
     whitelist: {
-      every: (60 * 1000 * 1000) / 2
+      every: (60 * 60 * 1000) / 2
     }
   }
 }))
