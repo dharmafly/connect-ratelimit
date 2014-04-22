@@ -24,7 +24,7 @@ module.exports = function (options) {
   blacklist   = options.blacklist || [];
   end         = options.end       || end;
 
-  options.catagories = options.catagories || {}; 
+  options.catagories = options.catagories || options.categories || {}; 
   deepExtend(config, options.catagories);
 
   return middleware;
