@@ -24,15 +24,15 @@ exceeding yourself elsewhere down the chain.
 About
 -----
 
-### Catagories
+### Categories
 
-Catagories serve as templates to manage different types of connecting clients.
-By default all clients are catagorized as 'normal' but `whitelist` and `blacklist` 
-catagories also exist. 
+Categories serve as templates to manage different types of connecting clients.
+By default all clients are categorized as 'normal' but `whitelist` and `blacklist` 
+categories also exist. 
 
 #### normal
 
-By default anyone uncatagorized will be subject to 500 requests per hour.
+By default anyone uncategorized will be subject to 500 requests per hour.
 
 #### whitelist
 
@@ -63,24 +63,24 @@ var limiter = require('connect-ratelimit');
 The middleware takes an options object with the following parameters:
 
 - `whitelist`: An array of strings representing clients you wish to apply to 
-the whitelist catagory. eg. `['127.0.0.1']` for local development.
+the whitelist category. eg. `['127.0.0.1']` for local development.
 - `blacklist`: An array of strings representing clients you wish to apply to 
-the blacklist catagory.
+the blacklist category.
 - `end`: A boolean when set to false (default true) the connect chain will 
 continue even if a client has exceeded the ratelimit. The `response` object is 
 augmented with the `ratelimit` namespace. `response.ratelimit` exposes an object 
 which contains the various details about the client including if they have past 
 their limit as well as all other recorded clients. This is useful if you wish 
 to supply your own error response to the client or any other logic.
-- `catagories`: An object representing the various *total requests* per *time* 
-for each catagory type. See below.
+- `categories`: An object representing the various *total requests* per *time* 
+for each category type. See below.
 
-### Configuring the different catagories
+### Configuring the different categories
 
-The `catagories` property of the options object for the connect-limiter allows 
-you to specify different `totalRequests` and `every` for specific catagories.
+The `categories` property of the options object for the connect-limiter allows 
+you to specify different `totalRequests` and `every` for specific categories.
 
-A fully configured value of the `catagories` property could like this:
+A fully configured value of the `categories` property could like this:
 
 ```JavaScript
 {
@@ -99,16 +99,16 @@ A fully configured value of the `catagories` property could like this:
 }
 ```
 
-Set `totalRequests` to `0` is how to block requests from under catagory 
+Set `totalRequests` to `0` is how to block requests from under category 
 entirely.
 
 Below is how you can switch from an hourly rate to a half-hourly rate for all 
-catagories but blacklist.
+categories but blacklist.
 
 ```JavaScript
 .use(limiter({
   whitelist: ['dharmafly.com'],
-  catagories: {
+  categories: {
     normal: {
       every: (60 * 60 * 1000) / 2
     },
@@ -119,7 +119,7 @@ catagories but blacklist.
 }))
 ```
 
-You don't need to set every catagory, just the properties you want to change.
+You don't need to set every category, just the properties you want to change.
 
 Example
 -------

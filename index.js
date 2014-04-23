@@ -19,13 +19,20 @@ var clients   = {},
 
 
 module.exports = function (options) {
-  var options = options           || {};
+  var categories;
+
+  if (!options){
+    options = {};
+  }
+
   whitelist   = options.whitelist || [];
   blacklist   = options.blacklist || [];
   end         = options.end       || end;
 
-  options.catagories = options.catagories || options.categories || {}; 
-  deepExtend(config, options.catagories);
+  categories = options.categories || options.catagories; 
+  if (categories){
+    deepExtend(config, categories);
+  }
 
   return middleware;
 };
@@ -103,7 +110,9 @@ function getClientType (name) {
 }
 
 function deepExtend (destination, source) {
-  for (var property in source) {
+  var property;
+  
+  for (property in source) {
     if (source[property] && source[property].constructor &&
      source[property].constructor === Object) {
       destination[property] = destination[property] || {};
