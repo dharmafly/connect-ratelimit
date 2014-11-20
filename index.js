@@ -9,7 +9,7 @@ var clients   = {},
       },
       blacklist: {
         totalRequests: 0,
-        every:         0 
+        every:         60 * 60 * 1000 
       },
       normal: {
         totalRequests: 500,
