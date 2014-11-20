@@ -71,8 +71,9 @@ function middleware (req, res, next) {
     next();
   }
   else {
+    res.setHeader('Content-Type', 'application/json');
     res.statusCode = 429;
-    res.end('Rate limit exceded.');
+    res.end('{"error":"Rate limit exceded."}');
   }
 }
 
