@@ -8,7 +8,9 @@ var app  = connect()
               blacklist: ['127.0.0.1'],
               categories: {
                 blacklist: {
-                  totalRequests: 1,
+                  totalRequests:  3,
+                  // totalRequests:  0,
+                  // totalRequests: -1,
                   //every: 10000
                 }
               }
