@@ -4,7 +4,7 @@ var clients   = {},
     end       = false,
     config    = {
       whitelist: {
-        totalRequests: 5000,
+        totalRequests: -1,
         every:         60 * 60 * 1000
       },
       blacklist: {
@@ -54,16 +54,17 @@ function middleware (req, res, next) {
 
   if (!client) {
     clients[name] = client = new Client(name, type, config[type].every);
-  }
+  }  
 
   res.setHeader('X-RateLimit-Limit', config[type].totalRequests);
-  res.setHeader('X-RateLimit-Remaining', config[type].totalRequests - client.ticks);
+  res.setHeader('X-RateLimit-Remaining', config[type].totalRequests - client.visits);
 
   res.ratelimit.exceeded = !ok(client);
   res.ratelimit.client   = client;
 
+
   if (ok(client)) {
-    client.ticks++;
+    client.visits++;
     next();
   } 
   else if (end === false) {
@@ -80,7 +81,7 @@ function Client (name, type, resetIn) {
 
   this.name  = name;
   this.type  = type;
-  this.ticks = 1;
+  this.visits = 1;
 
   setTimeout(function () {
     delete clients[name];
@@ -88,14 +89,10 @@ function Client (name, type, resetIn) {
 }
 
 function ok (client) {
-  if (client.type === 'whitelist') {
-    return client.ticks <= config.whitelist.totalRequests;
-  }
-  if (client.type === 'blacklist') {
-    return client.ticks <= config.blacklist.totalRequests;
-  }
-  if (client.type === 'normal') {
-    return client.ticks <= config.normal.totalRequests;
+  if (config[client.type].totalRequests === -1) {
+    return true;
+  } else {
+    return client.visits <= config[client.type].totalRequests;
   }
 }
 
