@@ -26,9 +26,7 @@ About
 
 ### Categories
 
-Categories serve as templates to manage different types of connecting clients.
-By default all clients are categorized as 'normal' but `whitelist` and `blacklist` 
-categories also exist. 
+Categories serve as configurable templates to manage different types of connecting clients. By default all clients are categorized as 'normal' but `whitelist` and `blacklist` categories also exist. 
 
 #### normal
 
@@ -36,13 +34,11 @@ By default anyone uncategorized will be subject to 500 requests per hour.
 
 #### whitelist
 
-By default client names in the whitelist will be subject to 4000 requests per 
-hour.
+By default client names in the whitelist will not have their requests limited.
 
 #### blacklist
 
-By default client names in the blacklist will be subject to 0 requests per 0 
-time. In other words they will always be exceding the rate limit.
+By default client names in the blacklist will be subject to 0 requests per hours. In other words they will always be exceding the rate limit.
 
 ### Client identification
 
@@ -85,22 +81,24 @@ A fully configured value of the `categories` property could like this:
 ```JavaScript
 {
   whitelist: {
-    totalRequests: 5000,
+    totalRequests: -1,
     every:         60 * 60 * 1000
   },
   blacklist: {
     totalRequests: 0,
-    every:         0 
+    every:         60 * 60 * 1000 
   },
   normal: {
-    totalRequests: 5,
+    totalRequests: 500,
     every:         60 * 60 * 1000
   }
 }
 ```
 
-Set `totalRequests` to `0` is how to block requests from under category 
+Setting `totalRequests` to `0` is how to block requests from a category 
 entirely.
+
+Setting `totalRequests` to `-1` is how to remove request limits from a category entirely.
 
 Below is how you can switch from an hourly rate to a half-hourly rate for all 
 categories but blacklist.
@@ -119,7 +117,7 @@ categories but blacklist.
 }))
 ```
 
-You don't need to set every category, just the properties you want to change.
+**You don't need to set every category, just the properties you want to change.**
 
 Example
 -------
